@@ -1,19 +1,20 @@
 NAME = libft.a
 
+INC				= inc/
+SRC_DIR			= src/
+
 SRCS = \
-	file/ft_putstr_fd.c \
-	file/ft_putendl_fd.c\
-	file/ft_putchar_fd.c \
-	\
-	mem/ft_bzero.c \
-	mem/ft_calloc.c \
-	\
-	str/ft_strjoin.c \
-	str/ft_substr.c \
-	str/ft_strlcpy.c \
-	str/ft_strlen.c\
-	str/ft_split.c \
-	str/ft_strcmp.c \
+	$(SRC_DIR)ft_putstr_fd.c \
+	$(SRC_DIR)ft_putendl_fd.c\
+	$(SRC_DIR)ft_putchar_fd.c \
+	$(SRC_DIR)ft_bzero.c \
+	$(SRC_DIR)ft_calloc.c \
+	$(SRC_DIR)ft_strjoin.c \
+	$(SRC_DIR)ft_substr.c \
+	$(SRC_DIR)ft_strlcpy.c \
+	$(SRC_DIR)ft_strlen.c\
+	$(SRC_DIR)ft_split.c \
+	$(SRC_DIR)ft_strcmp.c \
 
 OBJS = ${SRCS:.c=.o}
 

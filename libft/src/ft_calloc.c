@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdecorte <jdecorte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/01 12:18:22 by jdecorte          #+#    #+#             */
-/*   Updated: 2021/10/01 21:04:00 by jdecorte         ###   ########.fr       */
+/*   Created: 2021/10/01 11:48:05 by jdecorte          #+#    #+#             */
+/*   Updated: 2021/10/06 13:51:18 by jdecorte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../inc/libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	*ft_calloc(size_t elementCount, size_t elementSize)
 {
-	int	i;
+	char	*res;
 
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		ft_putchar_fd (s[i], fd);
-		i++;
-	}
+	res = malloc(elementSize * elementCount);
+	if (!res)
+		return (NULL);
+	ft_bzero(res, elementSize * elementCount);
+	return (res);
 }

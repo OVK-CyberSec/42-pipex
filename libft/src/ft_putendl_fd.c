@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdecorte <jdecorte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/01 11:48:05 by jdecorte          #+#    #+#             */
-/*   Updated: 2021/10/06 13:51:18 by jdecorte         ###   ########.fr       */
+/*   Created: 2021/10/01 12:18:20 by jdecorte          #+#    #+#             */
+/*   Updated: 2021/10/01 12:18:20 by jdecorte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../inc/libft.h"
 
-void	*ft_calloc(size_t elementCount, size_t elementSize)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char	*res;
+	int	i;
 
-	res = malloc(elementSize * elementCount);
-	if (!res)
-		return (NULL);
-	ft_bzero(res, elementSize * elementCount);
-	return (res);
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar_fd (s[i], fd);
+		i++;
+	}
+	ft_putchar_fd ('\n', fd);
 }
