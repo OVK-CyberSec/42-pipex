@@ -1,24 +1,19 @@
 NAME = libft.a
 
-INC				= inc/
-SRC_DIR			= src/
-
 SRCS = \
-	$(SRC_DIR)ft_putstr_fd.c \
-	$(SRC_DIR)ft_putendl_fd.c\
-	$(SRC_DIR)ft_putchar_fd.c \
-	$(SRC_DIR)ft_bzero.c \
-	$(SRC_DIR)ft_calloc.c \
-	$(SRC_DIR)ft_strjoin.c \
-	$(SRC_DIR)ft_substr.c \
-	$(SRC_DIR)ft_strlcpy.c \
-	$(SRC_DIR)ft_strlen.c\
-	$(SRC_DIR)ft_split.c \
-	$(SRC_DIR)ft_strcmp.c \
+	src/ft_putstr_fd.c \
+	src/ft_putendl_fd.c\
+	src/ft_putchar_fd.c \
+	src/ft_bzero.c \
+	src/ft_calloc.c \
+	src/ft_strjoin.c \
+	src/ft_substr.c \
+	src/ft_strlcpy.c \
+	src/ft_strlen.c\
+	src/ft_split.c \
+	src/ft_strcmp.c \
 
 OBJS = ${SRCS:.c=.o}
-
-OBJSBONUS = ${BONUS:.c=.o}
 
 CC		= gcc
 RM		= rm -f
@@ -34,7 +29,7 @@ $(NAME): ${OBJS}
 all:	${NAME}
 
 clean:
-		${RM} ${OBJS} ${OBJSBONUS}
+		${RM} ${OBJS}
 
 fclean:	clean
 		${RM} ${NAME}
