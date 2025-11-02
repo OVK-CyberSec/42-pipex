@@ -8,11 +8,8 @@ RM = rm -rf
 
 SRCS = 	src/pipex.c\
 		src/utils.c\
+		src/err_handling.c\
 		libft/libft.a\
-
-SRCS_BONUS = 	src_bonus/pipex_bonus.c\
-				src_bonus/utils_bonus.c\
-				libft/libft.a\
 
 $(NAME) :
 	make all -C libft

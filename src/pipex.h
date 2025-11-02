@@ -17,5 +17,8 @@ char	*get_path(char *cmd, char **env);
 void	exec(char *cmd, char **env);
 void	ft_free_tab(char **tab);
 void	exit_handler(int n_exit);
+int	check_args_order(int ac, char **av, char **env);
+int	check_commands(char **av, char **env);
+int	check_files(int ac, char **av);
 
 #endif

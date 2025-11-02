@@ -43,8 +43,8 @@ int	main(int ac, char **av, char **env)
 	int		p_fd[2];
 	pid_t	pid;
 
-	if (ac != 5)
-		exit_handler(1);
+	if (!check_files(ac, av) || !check_commands(av, env))
+		exit(-1);
 	if (pipe(p_fd) == -1)
 		exit(-1);
 	pid = fork();
