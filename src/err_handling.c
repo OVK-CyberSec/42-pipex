@@ -11,10 +11,7 @@ int	check_files(int ac, char **av)
 	}
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-	{
 		perror("pipex: infile");
-		return (0);
-	}
 	close(fd);
 	fd = open(av[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
