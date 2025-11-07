@@ -12,6 +12,7 @@ SRCS = \
 	src/ft_strlen.c\
 	src/ft_split.c \
 	src/ft_strcmp.c \
+	src/ft_strchr.c	\
 
 OBJS = ${SRCS:.c=.o}
 

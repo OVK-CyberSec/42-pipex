@@ -1,4 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohifdi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/03 14:28:05 by mohifdi           #+#    #+#             */
+/*   Updated: 2025/11/03 14:28:06 by mohifdi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
+
+static void	exec_absolute_or_relative(char **s_cmd, char **env)
+{
+	if (access(s_cmd[0], F_OK | X_OK) == 0)
+	{
+		execve(s_cmd[0], s_cmd, env);
+		perror("pipex");
+	}
+	else
+	{
+		ft_putstr_fd("pipex: no such file or permission denied: ", 2);
+		ft_putendl_fd(s_cmd[0], 2);
+	}
+	ft_free_tab(s_cmd);
+	exit(127);
+}
 
 void	exec(char *cmd, char **env)
 {
@@ -6,21 +34,33 @@ void	exec(char *cmd, char **env)
 	char	*path;
 
 	s_cmd = ft_split(cmd, ' ');
+	if (!s_cmd || !s_cmd[0])
+	{
+		ft_putstr_fd("pipex: invalid command\n", 2);
+		exit(1);
+	}
+	if (ft_strchr(s_cmd[0], '/'))
+		exec_absolute_or_relative(s_cmd, env);
 	path = get_path(s_cmd[0], env);
-	if (execve(path, s_cmd, env) == -1)
+	if (!path)
 	{
 		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(s_cmd[0], 2);
 		ft_free_tab(s_cmd);
-		exit(0);
+		exit(127);
 	}
+	execve(path, s_cmd, env);
+	perror("pipex");
+	ft_free_tab(s_cmd);
+	free(path);
+	exit(127);
 }
 
 void	child(char **av, int *p_fd, char **env)
 {
 	int		fd;
 
-	fd = open(av[1], O_RDONLY, 0777);
+	fd = open_file(av[1], 0);
 	dup2(fd, 0);
 	dup2(p_fd[1], 1);
 	close(p_fd[0]);
@@ -31,7 +71,7 @@ void	parent(char **av, int *p_fd, char **env)
 {
 	int		fd;
 
-	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	fd = open_file(av[4], 1);
 	dup2(fd, 1);
 	dup2(p_fd[0], 0);
 	close(p_fd[1]);
@@ -52,6 +92,5 @@ int	main(int ac, char **av, char **env)
 		exit(-1);
 	if (!pid)
 		child(av, p_fd, env);
-	waitpid(pid, NULL, 0);
 	parent(av, p_fd, env);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   err_handling.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohifdi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/03 14:27:38 by mohifdi           #+#    #+#             */
+/*   Updated: 2025/11/07 22:41:02 by mohifdi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 int	check_files(int ac, char **av)
@@ -23,30 +35,34 @@ int	check_files(int ac, char **av)
 	return (1);
 }
 
+static int	check_single_command(char *cmd, char **env)
+{
+	char	*path;
+
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, F_OK | X_OK) == 0)
+			return (1);
+		ft_putstr_fd("pipex: no such file or permission denied: ", 2);
+		ft_putendl_fd(cmd, 2);
+		return (0);
+	}
+	path = get_path(cmd, env);
+	if (!path)
+	{
+		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putendl_fd(cmd, 2);
+		return (0);
+	}
+	free(path);
+	return (1);
+}
+
 int	check_commands(char **av, char **env)
 {
-	char	*path1;
-	char	*path2;
-
-	path1 = get_path(av[2], env);
-	path2 = get_path(av[3], env);
-	if (!path1 || access(path1, F_OK | X_OK) != 0)
-	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(av[2], 2);
-		free(path1);
-		free(path2);
+	if (!check_single_command(av[2], env))
 		return (0);
-	}
-	if (!path2 || access(path2, F_OK | X_OK) != 0)
-	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(av[3], 2);
-		free(path1);
-		free(path2);
+	if (!check_single_command(av[3], env))
 		return (0);
-	}
-	free(path1);
-	free(path2);
 	return (1);
 }
