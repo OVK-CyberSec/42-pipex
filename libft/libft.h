@@ -15,6 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdint.h>
 
 int		ft_strcmp(char *s1, char *s2);
 void	ft_bzero(void *s, size_t n);

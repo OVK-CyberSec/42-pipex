@@ -6,7 +6,7 @@
 /*   By: mohifdi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:28:05 by mohifdi           #+#    #+#             */
-/*   Updated: 2025/11/03 14:28:06 by mohifdi          ###   ########.fr       */
+/*   Updated: 2025/11/14 22:04:58 by mohifdi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	exec_absolute_or_relative(char **s_cmd, char **env)
 	}
 	else
 	{
-		ft_putstr_fd("pipex: no such file or permission denied: ", 2);
+		ft_putstr_fd("pipex: no such 	file or permission denied: ", 2);
 		ft_putendl_fd(s_cmd[0], 2);
 	}
 	ft_free_tab(s_cmd);
@@ -80,17 +80,24 @@ void	parent(char **av, int *p_fd, char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	int		p_fd[2];
-	pid_t	pid;
+	int	p_fd[2];
+	int	pid1;
+	int	pid2;
 
-	if (!check_files(ac, av) || !check_commands(av, env))
-		exit(-1);
-	if (pipe(p_fd) == -1)
-		exit(-1);
-	pid = fork();
-	if (pid == -1)
-		exit(-1);
-	if (!pid)
+	if (pipe(p_fd) == -1 || !check_files(ac, av) || !check_commands(av, env))
+		exit(1);
+	pid1 = fork();
+	if (pid1 == 0)
 		child(av, p_fd, env);
-	parent(av, p_fd, env);
+	pid2 = fork();
+	if (pid2 == 0)
+		parent(av, p_fd, env);
+	else
+	{
+		close(p_fd[0]);
+		close(p_fd[1]);
+		waitpid(pid1, NULL, 0);
+		waitpid(pid2, NULL, 0);
+	}
+	return (0);
 }

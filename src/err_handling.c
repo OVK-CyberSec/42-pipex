@@ -6,7 +6,7 @@
 /*   By: mohifdi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:27:38 by mohifdi           #+#    #+#             */
-/*   Updated: 2025/11/07 22:41:02 by mohifdi          ###   ########.fr       */
+/*   Updated: 2025/11/15 19:53:52 by mohifdi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,19 @@ int	check_files(int ac, char **av)
 	return (1);
 }
 
-static int	check_single_command(char *cmd, char **env)
+static int	check_local_command(char *cmd)
+{
+	if (access(cmd, F_OK | X_OK) == 0)
+		return (1);
+	ft_putstr_fd("pipex: no such file or permission denied: ", 2);
+	ft_putendl_fd(cmd, 2);
+	return (0);
+}
+
+static int	check_path_command(char *cmd, char **env)
 {
 	char	*path;
 
-	if (ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, F_OK | X_OK) == 0)
-			return (1);
-		ft_putstr_fd("pipex: no such file or permission denied: ", 2);
-		ft_putendl_fd(cmd, 2);
-		return (0);
-	}
 	path = get_path(cmd, env);
 	if (!path)
 	{
@@ -56,6 +57,25 @@ static int	check_single_command(char *cmd, char **env)
 	}
 	free(path);
 	return (1);
+}
+
+static int	check_single_command(char *cmd, char **env)
+{
+	char	**cmd_parts;
+	int		result;
+
+	cmd_parts = ft_split(cmd, ' ');
+	if (!cmd_parts)
+	{
+		ft_putstr_fd("pipex: memory allocation failed\n", 2);
+		return (0);
+	}
+	if (ft_strchr(cmd_parts[0], '/'))
+		result = check_local_command(cmd_parts[0]);
+	else
+		result = check_path_command(cmd, env);
+	ft_free_tab(cmd_parts);
+	return (result);
 }
 
 int	check_commands(char **av, char **env)

@@ -6,7 +6,7 @@
 /*   By: mohifdi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:28:10 by mohifdi           #+#    #+#             */
-/*   Updated: 2025/11/07 22:49:15 by mohifdi          ###   ########.fr       */
+/*   Updated: 2025/11/15 19:26:58 by mohifdi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int		check_commands(char **av, char **env);
 int		check_files(int ac, char **av);
 int		is_valid_absolute_path(char *path);
 int		is_valid_command(char *cmd, char **env);
+void	print_error(char *cmd, char **cmd_parts, int id);
 
 #endif
